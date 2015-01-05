@@ -1,7 +1,12 @@
-@(message: String)
+@import helper._
 
-@main("Welcome to Play") {
-
-    @play20.welcome(message, style = "Java")
-
+@main("Welcome DSVC") {
+    @form(routes.Application.uploadVideo(),'enctype -> "multipart/form-data") {
+        <input type="file" name="video"/>
+        <div>
+            <div>
+                <button id="submit" type="submit" value="Submit">Upload</button>
+            </div>
+        </div>
+    }
 }
