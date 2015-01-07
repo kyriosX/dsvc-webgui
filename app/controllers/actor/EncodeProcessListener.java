@@ -8,6 +8,7 @@ import com.kyrioslab.dsvc.node.messages.LocalMessage;
 import com.kyrioslab.jffmpegw.attributes.AudioAttributes;
 import com.kyrioslab.jffmpegw.attributes.CommonAttributes;
 import com.kyrioslab.jffmpegw.attributes.VideoAttributes;
+import com.kyrioslab.jffmpegw.attributes.VideoSize;
 import controllers.routes;
 import play.libs.Json;
 import views.formdata.EncodeResult;
@@ -15,6 +16,7 @@ import views.formdata.VideoConfig;
 
 /**
  * Created by Ivan Kirilyuk on 04.01.15.
+ *
  */
 public class EncodeProcessListener extends UntypedActor {
 
@@ -43,11 +45,19 @@ public class EncodeProcessListener extends UntypedActor {
             VideoAttributes va = new VideoAttributes();
 
             ca.setFormat(config.getFormat());
+
             aa.setCodec(config.getAcodec());
+            aa.setBitRate(config.getAbitrate());
+            aa.setSamplingRate(Integer.valueOf(config.getSampling_rate()));
+            aa.setChannels(Integer.valueOf(config.getChannels()));
+
             va.setCodec(config.getVcodec());
+            va.setBitRate(config.getVbitrate());
+            va.setFrameRate(Double.valueOf(config.getVframerate()));
+            va.setVideoSize(new VideoSize(config.getVsize()));
 
             LocalMessage.EncodeVideoMessage encodeJob = new LocalMessage.EncodeVideoMessage(
-                    config.getVideoPath(),
+                    config.getVpath(),
                     ca,
                     aa,
                     va

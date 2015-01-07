@@ -1,51 +1,9 @@
 @(vName: String)(vPath:String)
 @import helper._
 
-@main("Encoding process started") {
+@base("Video configuration") {
 
-    <form id="video_conf">
-        <input type="text" disabled value="@vName"/>
-        <select id="format" name="format">
-            <label for="format"/>
-            <option>
-                mp4
-            </option>
-        </select>
-        <select id="acodec" name="acodec">
-            <label for="acodec"/>
-            <option >
-                copy
-            </option>
-        </select>
-        <select id="vcodec" name="vcodec">
-            <label for="vcodec"/>
-            <option id="vcodec">
-                mpeg4
-            </option>
-        </select>
-        <div>
-            <button id="submit" type="button" value="Submit" onclick="sendJob()">Encode</button>
-        </div>
-    </form>
+    <h3>@vName video configuration</h3>
 
-    <script type="application/javascript">
-        var socket = new WebSocket ("@routes.Application.encodeProcessSocket().webSocketURL(false)");
-            socket.onmessage = function ( msg ) {
-            var m = JSON.parse(msg.data);
-                if ( m.downloadURL != undefined) {
-                    window.location.href = m.downloadURL;
-                }
-            };
-
-        function sendJob(form){
-            var o = {};
-            var videoPath = "@vPath";
-            var a = $('#video_conf').serializeArray();
-            $.each(a, function() {
-                o[this.name] = this.value;
-            });
-            o.videoPath = videoPath;
-            socket.send(JSON.stringify(o));
-        }
-    </script>
+    @video_config_form(vName, vPath)
 }

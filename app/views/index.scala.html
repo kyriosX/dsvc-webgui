@@ -1,12 +1,24 @@
 @import helper._
 
-@main("Welcome DSVC") {
-    @form(routes.Application.uploadVideo(),'enctype -> "multipart/form-data") {
-        <input type="file" name="video"/>
-        <div>
-            <div>
-                <button id="submit" type="submit" value="Submit">Upload</button>
+@base("Welcome to DSVC") {
+    @*<h1 class="brand-heading">D.S.V.C</h1>*@
+    @*<p class="intro-text">Distributed video encoding system.</p>*@
+    @form(routes.Application.uploadVideo(), 'enctype -> "multipart/form-data",
+        'id -> "video_form") {
+        <div class="video_upload">
+            <input id="file_info" type="text" class="file" name="file_info"/>
+            <div class="file_upload">
+                <input type="file" id="file_upload" name="video" onchange="showFileInfo ( )"/>
             </div>
         </div>
+        <div>
+            <a href="#" class="arrow_button" onclick="$ ( '#video_form' ).submit ( )">
+                Go <i class="icon-chevron-right"></i></a>
+        </div>
     }
+    <script>
+    function showFileInfo ( ) {
+    $ ( "#file_info" ).val ( $ ( "#file_upload" ).val ( ) )
+    }
+    </script>
 }

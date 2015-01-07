@@ -1,0 +1,113 @@
+@(vName : String, vPath : String)
+
+<form id="video_conf" class="video_conf">
+
+    <input type="text" hidden value="@vName"/>
+
+    @*Video settings block*@
+    <div class="config_block">
+        <h4>Video settings</h4>
+        <ul>
+            <li>
+                <label for="vcodec">Codec</label>
+                <div>
+                    <select id="vcodec" name="vcodec" class="input_small">
+                        <option selected>
+                            mpeg4
+                        </option>
+                    </select>
+                </div>
+            </li>
+            <li>
+                <label for="vbitrate">Bit Rate (kbit/s)</label>
+                <div>
+                    <input type="text" id="vbitrate"  class="input_small" name="vbitrate">
+                </div>
+            </li>
+            <li>
+                <label for="vframerate">Frame Rate (frame/s)</label>
+                <div>
+                    <input type="text" id="vframerate"  class="input_small" name="vframerate">
+                </div>
+            </li>
+            <li>
+                <label for="vsize">Size (WxH)</label>
+                <div>
+                    <select id="vsize" name="vsize" class="input_medium">
+                        <option selected>
+                            1980x1024
+                        </option>
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    @*Audio settings block*@
+    <div class="config_block">
+        <h4>Audio settings</h4>
+        <ul>
+            <li>
+                <label for="acodec">Codec</label>
+                <div>
+                    <select id="acodec" name="acodec" class="input_small">
+                        <option selected>
+                            copy
+                        </option>
+                    </select>
+                </div>
+            </li>
+            <li>
+                <label for="abitrate">Bit Rate (kbit/s)</label>
+                <div>
+                    <input type="text" id="abitrate"  class="input_small" name="abitrate">
+                </div>
+            </li>
+            <li>
+                <label for="sampling_rate">Sampling Rate (sample/s)</label>
+                <div>
+                    <input type="text" id="sampling_rate"  class="input_small" name="sampling_rate">
+                </div>
+            </li>
+            <li>
+                <label for="channels">Channels</label>
+                <div>
+                    <select id="channels" name="channels" class="input_small">
+                        <option selected>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="submit_configs">
+        <a href="#" class="arrow_button" onclick="sendJob()">Encode</a>
+    </div>
+</form>
+
+<script type="application/javascript">
+    var socket = new WebSocket ("@routes.Application.encodeProcessSocket().webSocketURL(false)");
+    socket.onmessage = function ( msg ) {
+        var m = JSON.parse(msg.data);
+        if ( m.downloadURL != undefined) {
+            window.location.href = m.downloadURL;
+        }
+    };
+
+    function sendJob(){
+        var o = {};
+        var vpath = "@vPath";
+        var a = $('#video_conf').serializeArray();
+        $.each(a, function() {
+            o[this.name] = this.value;
+        });
+        o.vpath = vpath;
+        socket.send(JSON.stringify(o));
+    }
+</script>
