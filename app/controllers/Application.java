@@ -4,13 +4,15 @@ import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.kyrioslab.dsvc.node.client.ClientMain;
 import com.kyrioslab.dsvc.node.util.FFMPEGService;
-import controllers.actor.EncodeProcessListener;
+import controllers.actor.EncodeProcessSocket;
+import controllers.actor.EncoderManagementSocket;
 import play.libs.F;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.WebSocket;
 import views.html.index;
+import views.html.manage;
 import views.html.track;
 
 import java.io.File;
@@ -62,10 +64,22 @@ public class Application extends Controller {
     }
 
 
+    public static Result manage() {
+        return ok(manage.render());
+    }
+
     public static WebSocket<String> encodeProcessSocket() {
         return WebSocket.withActor(new F.Function<ActorRef, Props>() {
             public Props apply(ActorRef out) throws Throwable {
-                return EncodeProcessListener.props(out, client);
+                return EncodeProcessSocket.props(out, client);
+            }
+        });
+    }
+
+    public static WebSocket<String> encoderManagementSocket() {
+        return WebSocket.withActor(new F.Function<ActorRef, Props>() {
+            public Props apply(ActorRef out) throws Throwable {
+                return EncoderManagementSocket.props(out, client);
             }
         });
     }

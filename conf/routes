@@ -11,6 +11,10 @@ POST        /encode               controllers.Application.uploadVideo()
 
 GET         /encode/listen        controllers.Application.encodeProcessSocket()
 
+GET         /manage               controllers.Application.manage()
+
+GET         /manage/socket        controllers.Application.encoderManagementSocket()
+
 GET         /track                controllers.Application.track(vName, vPath)
 
 GET         /download             controllers.Application.download(videoPath)

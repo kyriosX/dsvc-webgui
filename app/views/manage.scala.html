@@ -1,0 +1,38 @@
+@import helper._
+
+@base("Video configuration") {
+    <script id="node_tmpl"  type="text/x-jsrender">
+        <div class="node_container">
+        {{if rechabilityStatus == "REACHABLE"}}
+            <span class="node_address reachable">{{:hostPort}}</span>
+        {{else}}
+            <span class="node_address unreachable">{{:hostPort}}</span>
+        {{/if}}
+            <ul>
+                <li>Cores: {{:processors}}</li>
+                <li>Load: {{:cpuUsage}}</li>
+                <li>Heap: {{:heapUsage}}</li>
+            </ul>
+        </div>
+    </script>
+
+    <h3>Encoders management page</h3>
+
+
+    <div id="members" class="platform"></div>
+
+    <script type="application/javascript">
+        var socket = new WebSocket ("@routes.Application.encoderManagementSocket().webSocketURL(false)");
+        socket.onmessage = function ( msg ) {
+            var clusterState = JSON.parse(msg.data);
+            if ( clusterState.members != undefined) {
+                mlist = $("#members" );
+                mlist.empty();
+                clusterState.members.forEach(function (member) {
+                    mlist.append($( "#node_tmpl" ).render(member));
+                })
+            }
+        };
+    </script>
+
+}

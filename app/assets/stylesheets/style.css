@@ -455,3 +455,33 @@ li {
 .input_large {
     width: 200px;
 }
+
+/*Encoders management page styles*/
+
+.platform {
+    background: #5b8033;
+    width: 650px;
+}
+
+.node_container {
+    background-image: url("../../assets/img/cpu.png");
+    background-repeat: no-repeat;
+    width: 130px;
+    height: 130px;
+    float: left;
+    padding-top: 3px;
+}
+
+.unreachable {
+    background-color: red;
+}
+
+.reachable {
+    background-color: green;
+}
+
+.node_container > ul {
+    margin-left: 1px;
+    padding-left: 26px;
+    padding-top: 10px;
+}

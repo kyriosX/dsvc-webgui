@@ -18,10 +18,10 @@ import views.formdata.VideoConfig;
  * Created by Ivan Kirilyuk on 04.01.15.
  *
  */
-public class EncodeProcessListener extends UntypedActor {
+public class EncodeProcessSocket extends UntypedActor {
 
     public static Props props(ActorRef out, ActorRef client) {
-        return Props.create(EncodeProcessListener.class, out, client);
+        return Props.create(EncodeProcessSocket.class, out, client);
     }
 
     private final ActorRef out;
@@ -29,7 +29,7 @@ public class EncodeProcessListener extends UntypedActor {
     private final ActorRef client;
 
 
-    public EncodeProcessListener(ActorRef out, ActorRef client) {
+    public EncodeProcessSocket(ActorRef out, ActorRef client) {
         this.out = out;
         this.client = client;
     }
