@@ -1,22 +1,29 @@
 package views.formdata;
 
+import com.kyrioslab.jffmpegw.attributes.parser.StreamInfo;
+
+import java.util.List;
+
+/**
+ * A Class aggregates client video configuration.
+ */
 public class VideoConfig {
 
-    public String vpath = "";
-    public String format = "mp4";
-    public String vcodec = "";
-    public String vbitrate = "";
-    public String vframerate = "";
-    public String vsize = "";
-    public String acodec = "";
-    public String abitrate = "";
-    public String sampling_rate = "";
-    public String channels = "";
+    private List<StreamInfo> streams;
 
-    /**
-     * Required for form instantiation.
-     */
-    public VideoConfig() {
+    private String vpath;
+
+    private String vname;
+    private String oformat;
+
+    public VideoConfig () {}
+
+    public List<StreamInfo> getStreams() {
+        return streams;
+    }
+
+    public void setStreams(List<StreamInfo> streams) {
+        this.streams = streams;
     }
 
     public String getVpath() {
@@ -27,75 +34,19 @@ public class VideoConfig {
         this.vpath = vpath;
     }
 
-    public String getFormat() {
-        return format;
+    public String getOformat() {
+        return oformat;
     }
 
-    public void setFormat(String format) {
-        this.format = format;
+    public void setOformat(String oformat) {
+        this.oformat = oformat;
     }
 
-    public String getVcodec() {
-        return vcodec;
+    public String getVname() {
+        return vname;
     }
 
-    public void setVcodec(String vcodec) {
-        this.vcodec = vcodec;
-    }
-
-    public String getVbitrate() {
-        return vbitrate;
-    }
-
-    public void setVbitrate(String vbitrate) {
-        this.vbitrate = vbitrate;
-    }
-
-    public String getVframerate() {
-        return vframerate;
-    }
-
-    public void setVframerate(String vframerate) {
-        this.vframerate = vframerate;
-    }
-
-    public String getVsize() {
-        return vsize;
-    }
-
-    public void setVsize(String vsize) {
-        this.vsize = vsize;
-    }
-
-    public String getAcodec() {
-        return acodec;
-    }
-
-    public void setAcodec(String acodec) {
-        this.acodec = acodec;
-    }
-
-    public String getAbitrate() {
-        return abitrate;
-    }
-
-    public void setAbitrate(String abitrate) {
-        this.abitrate = abitrate;
-    }
-
-    public String getSampling_rate() {
-        return sampling_rate;
-    }
-
-    public void setSampling_rate(String sampling_rate) {
-        this.sampling_rate = sampling_rate;
-    }
-
-    public String getChannels() {
-        return channels;
-    }
-
-    public void setChannels(String channels) {
-        this.channels = channels;
+    public void setVname(String vname) {
+        this.vname = vname;
     }
 }

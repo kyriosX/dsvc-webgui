@@ -3,13 +3,14 @@ package controllers.actor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.GsonBuilder;
 import com.kyrioslab.dsvc.node.messages.LocalMessage;
-import com.kyrioslab.jffmpegw.attributes.AudioAttributes;
-import com.kyrioslab.jffmpegw.attributes.CommonAttributes;
-import com.kyrioslab.jffmpegw.attributes.VideoAttributes;
-import com.kyrioslab.jffmpegw.attributes.VideoSize;
+import com.kyrioslab.jffmpegw.command.BuilderException;
+import com.kyrioslab.jffmpegw.command.EncodeCommand;
+import com.kyrioslab.jffmpegw.command.EncodeCommandBuilder;
 import controllers.routes;
+import play.Logger;
 import play.libs.Json;
 import views.formdata.EncodeResult;
 import views.formdata.VideoConfig;
@@ -19,6 +20,9 @@ import views.formdata.VideoConfig;
  *
  */
 public class EncodeProcessSocket extends UntypedActor {
+
+    private static final String CODEC_TYPE_VIDEO = "video";
+    private static final String CODEC_TYPE_AUDIO = "audio";
 
     public static Props props(ActorRef out, ActorRef client) {
         return Props.create(EncodeProcessSocket.class, out, client);
@@ -37,32 +41,24 @@ public class EncodeProcessSocket extends UntypedActor {
     public void onReceive(Object message) throws Exception {
 
         if (message instanceof String) {
-            JsonNode msgNode = Json.parse(message.toString());
-            VideoConfig config = Json.fromJson(msgNode, VideoConfig.class);
+            VideoConfig config = new GsonBuilder().setFieldNamingStrategy(
+                    FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()
+                    .fromJson(message.toString(), VideoConfig.class);
 
-            CommonAttributes ca = new CommonAttributes();
-            AudioAttributes aa = new AudioAttributes();
-            VideoAttributes va = new VideoAttributes();
-
-            ca.setFormat(config.getFormat());
-
-            aa.setCodec(config.getAcodec());
-            aa.setBitRate(config.getAbitrate());
-            aa.setSamplingRate(Integer.valueOf(config.getSampling_rate()));
-            aa.setChannels(Integer.valueOf(config.getChannels()));
-
-            va.setCodec(config.getVcodec());
-            va.setBitRate(config.getVbitrate());
-            va.setFrameRate(Double.valueOf(config.getVframerate()));
-            va.setVideoSize(new VideoSize(config.getVsize()));
-
-            LocalMessage.EncodeVideoMessage encodeJob = new LocalMessage.EncodeVideoMessage(
-                    config.getVpath(),
-                    ca,
-                    aa,
-                    va
-            );
-            client.tell(encodeJob, getSelf());
+            //TODO: validation
+            try {
+                EncodeCommand command = new EncodeCommandBuilder("",
+                        config.getStreams()).build();
+                command.setFormats(extractFormat(config.getVname()),
+                        config.getOformat());
+                LocalMessage.EncodeVideoMessage encodeJob = new LocalMessage.EncodeVideoMessage(
+                        config.getVpath(),
+                        command
+                );
+                client.tell(encodeJob, getSelf());
+            } catch (BuilderException e) {
+                Logger.error("Build Exception: {}", e);
+            }
         } else if (message instanceof LocalMessage.EncodeResult) {
             String result = ((LocalMessage.EncodeResult) message).getResultPath();
             String url = routes.Application.download(result).url();
@@ -73,4 +69,9 @@ public class EncodeProcessSocket extends UntypedActor {
             out.tell(Json.toJson(encodeResult).toString(), getSelf());
         }
     }
+
+    private String extractFormat(String vname) {
+        return vname.substring(vname.lastIndexOf(".") + 1);
+    }
+
 }

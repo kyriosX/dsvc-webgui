@@ -15,8 +15,6 @@ GET         /manage               controllers.Application.manage()
 
 GET         /manage/socket        controllers.Application.encoderManagementSocket()
 
-GET         /track                controllers.Application.track(vName, vPath)
-
 GET         /download             controllers.Application.download(videoPath)
 
 # Map static resources from the /public folder to the /assets URL path

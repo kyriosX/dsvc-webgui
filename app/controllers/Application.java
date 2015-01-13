@@ -4,6 +4,8 @@ import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.kyrioslab.dsvc.node.client.ClientMain;
 import com.kyrioslab.dsvc.node.util.FFMPEGService;
+import com.kyrioslab.jffmpegw.attributes.parser.InfoParser;
+import com.kyrioslab.jffmpegw.attributes.parser.MultimediaInfo;
 import controllers.actor.EncodeProcessSocket;
 import controllers.actor.EncoderManagementSocket;
 import play.libs.F;
@@ -16,8 +18,11 @@ import views.html.manage;
 import views.html.track;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Application extends Controller {
+
+    private static final String PROBE_LOCATION = "/home/wizzard/diploma_work/dsvc/ffmpeg/ffprobe";
 
     private static ActorRef client;
 
@@ -44,16 +49,20 @@ public class Application extends Controller {
         File video = part.getFile();
         if (video != null) {
 
-            //redirect to job tracker
-            return redirect(routes.Application.track(part.getFilename(), video.getAbsolutePath()));
+            //get video info
+            try {
+                MultimediaInfo videoInfo = InfoParser.getInfo(PROBE_LOCATION, video.getAbsolutePath());
+
+                //redirect to job tracker
+                return ok(track.render(part.getFilename(), video.getAbsolutePath(), videoInfo));
+            } catch (Exception e) {
+                flash("error", "Exception while parsing video info.");
+                return redirect(routes.Application.index());
+            }
         } else {
             flash("error", "Missing video file");
             return redirect(routes.Application.index());
         }
-    }
-
-    public static Result track(String vName, String vPath) {
-        return ok(track.render(vName, vPath));
     }
 
     public static Result download(String videoPath) {

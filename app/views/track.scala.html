@@ -1,9 +1,9 @@
-@(vName: String)(vPath:String)
+@(vName: String)(vPath:String)(videoInfo : com.kyrioslab.jffmpegw.attributes.parser.MultimediaInfo)
 @import helper._
 
 @base("Video configuration") {
 
     <h3>@vName video configuration</h3>
 
-    @video_config_form(vName, vPath)
+    @video_config_form(vName, vPath, videoInfo)
 }
