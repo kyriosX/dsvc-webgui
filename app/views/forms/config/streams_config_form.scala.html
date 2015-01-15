@@ -1,0 +1,32 @@
+@(vName: String, vPath: String, videoInfo: com.kyrioslab.jffmpegw.attributes.parser.MultimediaInfo)
+
+<form id="video_conf" class="video_conf">
+
+    @*Generate form*@
+    @for(stream <- videoInfo.getStreams) {
+        @stream.getCodecType match {
+            case "video" => {
+                @forms.config.video_fieldset(stream, videoInfo)
+            }
+            case "audio" => {
+                @forms.config.audio_fieldset(stream, videoInfo)
+            }
+        }
+    }
+    @forms.config.common_fieldset(videoInfo, vName)
+    <div class="submit_configs">
+        <a href="#" class="arrow_button" onclick="sendJobW ( )">Encode</a>
+    </div>
+</form>
+
+
+
+<script src="@routes.Assets.at("javascripts/jobsender.js")" type="application/javascript"></script>
+
+<script type="application/javascript">
+    var socket = new WebSocket("@routes.Application.encodeProcessSocket().webSocketURL(false)");
+    manageSocket (socket) ;
+    function sendJobW ( ) {
+        sendJob (socket,"@vPath");
+    }
+</script>

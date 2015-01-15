@@ -1,0 +1,54 @@
+@(stream : com.kyrioslab.jffmpegw.attributes.parser.StreamInfo,
+videoInfo :  com.kyrioslab.jffmpegw.attributes.parser.MultimediaInfo)
+
+<fieldset name="stream" class="config_block">
+    <legend>Audio stream</legend>
+    <label for="index#@stream.getIndex">Index</label>
+    <input class="input_small" id="index#@stream.getIndex" name="index" type="text" value="@stream.getIndex">
+    <ul>
+        <li>
+            <input hidden name="codec_type" value="@stream.getCodecType">
+            <label for="acodec">Codec</label>
+            <div>
+                <select id="acodec" name="codec_name" class="input_small">
+                    <option selected>
+                    @stream.getCodecName
+                    </option>
+                    @for(codec <- videoInfo.getFullSupportedAudioCodecs) {
+                        <option>
+                        @codec.getName
+                        </option>
+                    }
+                </select>
+            </div>
+        </li>
+        <li>
+            <label for="abitrate">Bit Rate (bit/s)</label>
+            <div>
+                <input value="@stream.getBitRate" type="text" id="abitrate" class="input_small" name="bit_rate">
+            </div>
+        </li>
+        <li>
+            <label for="sampling_rate">Sampling Rate (sample/s)</label>
+            <div>
+                <input value="@stream.getSampleRate" type="text" id="sampling_rate" class="input_small" name="sample_rate">
+            </div>
+        </li>
+        <li>
+            <label for="channels">Channels</label>
+            <div>
+                <select id="channels" name="channels" class="input_small">
+                    <option selected>@stream.getChannels</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                </select>
+            </div>
+        </li>
+    </ul>
+</fieldset>

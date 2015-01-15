@@ -1,0 +1,46 @@
+@(stream : com.kyrioslab.jffmpegw.attributes.parser.StreamInfo,
+        videoInfo : com.kyrioslab.jffmpegw.attributes.parser.MultimediaInfo)
+
+<fieldset name="stream" class="config_block">
+    <legend>Video stream</legend>
+    <label for="index#@stream.getIndex">Index</label>
+    <input class="input_small" id="index#@stream.getIndex" name="index" type="text" value="@stream.getIndex">
+    <ul>
+        <li>
+            <input hidden name="codec_type" value="@stream.getCodecType">
+            <label for="vcodec">Codec</label>
+            <div>
+                <select id="vcodec" name="codec_name" class="input_small">
+                    <option selected>
+                    @stream.getCodecName
+                    </option>
+                    @for(codec <- videoInfo.getFullSupportedVideoCodecs) {
+                        <option>
+                        @codec.getName
+                        </option>
+                    }
+                </select>
+            </div>
+        </li>
+        <li>
+            <label for="vbitrate">Bit Rate (bit/s)</label>
+            <div>
+                <input value="@stream.getBitRate" type="text" id="vbitrate" class="input_small" name="bit_rate">
+            </div>
+        </li>
+        <li>
+            <label for="vframerate">Frame Rate</label>
+            <div>
+                <input value="@stream.getAvgFrameRate" type="text" id="vframerate" class="input_small" name="avg_frame_rate">
+            </div>
+        </li>
+        <li>
+            <div>
+                <label for="width">Width</label>
+                <input id="width" type="text" name="width" value="@stream.getWidth">
+                <label for="height">Height</label>
+                <input id="height" type="text" name="height" value="@stream.getHeight">
+            </div>
+        </li>
+    </ul>
+</fieldset>

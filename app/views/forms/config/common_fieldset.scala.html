@@ -1,0 +1,14 @@
+@(videoInfo : com.kyrioslab.jffmpegw.attributes.parser.MultimediaInfo,
+        vName : String)
+
+<fieldset name="common">
+    <label for="oformat">Output format:</label>
+    <select id="oformat" name="oformat">
+    @for(f <- videoInfo.getFullSupportedFormats) {
+        <option>
+            @f.getName
+        </option>
+    }
+    </select>
+    <input name="vname" hidden value="@vName"/>
+</fieldset>
