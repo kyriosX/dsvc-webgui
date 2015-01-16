@@ -12,9 +12,10 @@ public class VideoConfig {
     private List<StreamInfo> streams;
 
     private String vpath;
-
     private String vname;
+    private String inputFormat;
     private String oformat;
+    private String duration;
 
     public VideoConfig () {}
 
@@ -48,5 +49,21 @@ public class VideoConfig {
 
     public void setVname(String vname) {
         this.vname = vname;
+    }
+
+    public String getInputFormat() {
+        return inputFormat;
+    }
+
+    public void setInputFormat(String inputFormat) {
+        this.inputFormat = inputFormat;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 }

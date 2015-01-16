@@ -1,14 +1,33 @@
-@(videoInfo : com.kyrioslab.jffmpegw.attributes.parser.MultimediaInfo,
-        vName : String)
+@(videoInfo: com.kyrioslab.jffmpegw.attributes.parser.MultimediaInfo, vName : String)
 
-<fieldset name="common">
-    <label for="oformat">Output format:</label>
-    <select id="oformat" name="oformat">
-    @for(f <- videoInfo.getFullSupportedFormats) {
-        <option>
-            @f.getName
-        </option>
-    }
-    </select>
-    <input name="vname" hidden value="@vName"/>
+<fieldset name="common" class="config_block">
+    <legend>Common configuration</legend>
+    <ul>
+        <li>
+            <div class="input_item_wrapper">
+                <label for="oformat">Output format:</label>
+                <div>
+                    <select id="oformat" name="oformat">
+                        @for(f <- videoInfo.getFullSupportedFormats) {
+                            <option>
+                            @f.getName
+                            </option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </li>
+        <li>
+        @forms.config.config_input_item("Name:", "vname",
+            vName, "text", "input_large")
+        </li>
+        <li>
+        @forms.config.config_input_item("Format:", "input_format",
+            videoInfo.getFormat.getFormatName, "text", "input_medium")
+        </li>
+        <li>
+        @forms.config.config_input_item("Duration:", "duration",
+            videoInfo.getFormat.getDuration, "text", "input_medium")
+        </li>
+    </ul>
 </fieldset>

@@ -408,8 +408,7 @@ a.arrow_button:active{
 
 /*Video config form*/
 .video_conf {
-    width: 600px;
-    margin-left: 15%;
+    width: 100%;
 }
 
 li {
@@ -418,19 +417,26 @@ li {
 }
 
 .config_block {
-    width: 49.9999%;
+    width: 32.333333%;
     float: left;
-    padding-left: 5%;
-    background-color: red;
-    opacity: 0.5;
+    padding-left: 1px;
+    background-color: #150E34;
+    opacity: 0.63;
+    margin-right: 0.5%;
 }
 
-.config_block > ul > li > div > input {
-    background-color: #919191;
+.input_item_wrapper {
+    float: left;
+    margin-right: 25px;
 }
 
-.config_block > ul > li > div > select {
-    background-color: #919191;
+.input_item_wrapper > div > input {
+    background-color: #5A5788;
+}
+
+.input_item_wrapper > div > select {
+    background-color: #5A5788;
+    height: 26px;
 }
 
 .config_block > h4 {
