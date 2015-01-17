@@ -53,7 +53,8 @@ public class EncodeProcessSocket extends UntypedActor {
                         config.getOformat());
                 LocalMessage.EncodeVideoMessage encodeJob = new LocalMessage.EncodeVideoMessage(
                         config.getVpath(),
-                        command
+                        command,
+                        config.getDuration()
                 );
                 client.tell(encodeJob, getSelf());
             } catch (BuilderException e) {

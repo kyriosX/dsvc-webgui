@@ -304,7 +304,7 @@ body {
 
 /*Video upload*/
 div.video_upload {
-    width: 530px;
+    width: 100%;
     height: 20px;
     margin: 40px auto;
 }
@@ -409,6 +409,7 @@ a.arrow_button:active{
 /*Video config form*/
 .video_conf {
     width: 100%;
+    margin-top: 5%;
 }
 
 li {
@@ -418,25 +419,20 @@ li {
 
 .config_block {
     width: 32.333333%;
+    height: 430px;
     float: left;
     padding-left: 1px;
-    background-color: #150E34;
-    opacity: 0.63;
+    background-color: #00020F;
+    opacity: 0.9;
     margin-right: 0.5%;
+    -webkit-box-shadow: 0px 4px 21px 0px rgba(27, 28, 39, 0.61);
+    -moz-box-shadow:    0px 4px 21px 0px rgba(27, 28, 39, 0.61);
+    box-shadow:         0px 4px 21px 0px rgba(27, 28, 39, 0.61);
 }
 
-.input_item_wrapper {
+.form-group-float {
     float: left;
-    margin-right: 25px;
-}
-
-.input_item_wrapper > div > input {
-    background-color: #5A5788;
-}
-
-.input_item_wrapper > div > select {
-    background-color: #5A5788;
-    height: 26px;
+    margin-right: 10%;
 }
 
 .config_block > h4 {
@@ -476,6 +472,11 @@ li {
     height: 130px;
     float: left;
     padding-top: 3px;
+    background-color: rgba(185, 167, 100, 0.60);
+    -webkit-box-shadow: 0px 4px 21px 0px rgba(27, 28, 39, 0.61);
+    -moz-box-shadow:    0px 4px 21px 0px rgba(27, 28, 39, 0.61);
+    box-shadow:         0px 4px 21px 0px rgba(27, 28, 39, 0.61);
+    margin-left: 10px;
 }
 
 .unreachable {
@@ -490,4 +491,8 @@ li {
     margin-left: 1px;
     padding-left: 26px;
     padding-top: 10px;
+}
+
+legend {
+    color: #ffffff;
 }

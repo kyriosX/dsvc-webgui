@@ -8,10 +8,10 @@
     <ul>
         <li>
             <input hidden name="codec_type" value="@stream.getCodecType">
-            <div class="input_item_wrapper">
-                <label for="vcodec">Codec</label>
-                <div>
-                    <select id="vcodec" name="codec_name" class="input_small">
+            <div class="form-group form-group-float">
+                <div class="input_medium">
+                    <label for="vcodec">Codec</label>
+                    <select id="vcodec" name="codec_name" class="form-control">
                         <option selected>
                         @stream.getCodecName
                         </option>
@@ -26,19 +26,15 @@
         </li>
         <li>
         @forms.config.config_input_item("Bit rate (bit/s)", "bit_rate",
-            stream.getBitRate, "text", "input_small")
+            stream.getBitRate, "text", "input_medium")
         </li>
         <li>
-        @forms.config.config_input_item("Aspect ratio:", "display_aspect_ratio",
-            stream.getDisplayAspectRatio, "text", "input_small")
-        </li>
-        <li>
-            <div class="input_item_wrapper">
-                <label for="pix_fmt">Pixel format:</label>
-                <div>
-                    <select id="pix_fmt" name="pix_fmt" class="input_medium">
+            <div class="form-group form-group-float">
+                <div class="input_medium">
+                    <label for="pix_fmt">Pixel format:</label>
+                    <select id="pix_fmt" name="pix_fmt" class="form-control">
                         <option selected>
-                             @stream.getPixFmt
+                        @stream.getPixFmt
                         </option>
                         @for(f <- videoInfo.getFullSupportedPixFormats) {
                             <option>
@@ -50,16 +46,27 @@
             </div>
         </li>
         <li>
-        @forms.config.config_input_item("Frame Rate:", "avg_frame_rate",
+            <div style="clear: left">
+                @forms.config.config_input_item("Width:", "width",
+                    stream.getWidth, "text", "input_small")
+                @forms.config.config_input_item("Height:", "height",
+                    stream.getHeight, "text", "input_small")
+            </div>
+        </li>
+        <li>
+        @forms.config.config_input_item("Aspect:", "display_aspect_ratio",
+            stream.getDisplayAspectRatio, "text", "input_small")
+        </li>
+        <li>
+        @forms.config.config_input_item("Frame rt:", "avg_frame_rate",
             stream.getAvgFrameRate, "text", "input_small")
         </li>
         <li>
-            <div class="input_item_wrapper">
-                <div>
-                    @forms.config.config_input_item("Width:", "width",
-                        stream.getWidth, "text", "input_small")
-                    @forms.config.config_input_item("Height:", "height",
-                        stream.getHeight, "text", "input_small")
+            <div class="form-group form-group-float">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="disabled"> Disable stream
+                    </label>
                 </div>
             </div>
         </li>

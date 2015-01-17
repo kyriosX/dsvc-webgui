@@ -1,8 +1,8 @@
 @(label:String, name_id:String, value : String, input_type : String,input_class : String)
 
-<div class="input_item_wrapper">
-    <label for="@name_id">@label</label>
-    <div>
-        <input name="@name_id" id="@name_id" value="@value" type="@input_type" class="@input_class"/>
+<div class="form-group form-group-float">
+    <div class="@input_class">
+        <label for="@name_id">@label</label>
+        <input name="@name_id" id="@name_id" value="@value" type="@input_type" class="form-control"/>
     </div>
 </div>

@@ -23,7 +23,13 @@ function serializeConfigs() {
             var stream = {};
             $.each($(fset).serializeArray(),
                 function (i, config) {
-                    stream[config.name] = config.value;
+                    if (config.value === "on") {
+                        stream[config.name] = "true";
+                    } else if (config.value === "off"){
+                        stream[config.name] = "false";
+                    } else {
+                        stream[config.name] = config.value;
+                    }
                 });
             v_config.streams.push(stream);
         }
@@ -34,9 +40,14 @@ function serializeConfigs() {
         function (i, fset) {
             $.each($(fset).serializeArray(),
                 function (i, config) {
-                    v_config[config.name] = config.value;
+                    if (config.value === "on") {
+                        v_config[config.name] = "true";
+                    } else if (config.value === "off"){
+                        v_config[config.name] = "false";
+                    } else {
+                        v_config[config.name] = config.value;
+                    }
                 });
-
         }
     );
     return v_config;

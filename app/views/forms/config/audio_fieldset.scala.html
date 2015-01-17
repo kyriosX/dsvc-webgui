@@ -2,16 +2,22 @@
         videoInfo: com.kyrioslab.jffmpegw.attributes.parser.MultimediaInfo)
 
 <fieldset name="stream" class="config_block">
-    <legend>Audio</legend>
+    <legend>Audio&nbsp;
+        @if(stream.getTags != null) {
+            @if(stream.getTags.getLanguage != null) {
+                (@stream.getTags.getLanguage)
+            }
+        }
+    </legend>
     <label for="index#@stream.getIndex">stream #@stream.getIndex</label>
     <input hidden class="input_small" id="index#@stream.getIndex" name="index" type="text" value="@stream.getIndex">
     <ul>
         <li>
             <input hidden name="codec_type" value="@stream.getCodecType">
-            <div class="input_item_wrapper">
-                <label for="acodec">Codec</label>
-                <div>
-                    <select id="acodec" name="codec_name" class="input_small">
+            <div class="form-group form-group-float">
+                <div class="input_medium">
+                    <label for="acodec">Codec</label>
+                    <select id="acodec" name="codec_name" class="form-control">
                         <option selected>
                         @stream.getCodecName
                         </option>
@@ -25,18 +31,10 @@
             </div>
         </li>
         <li>
-        @forms.config.config_input_item("Bit rate (bit/s):", "bit_rate",
-            stream.getBitRate, "text", "input_small")
-        </li>
-        <li>
-        @forms.config.config_input_item("Sampling Rate:", "sample_rate",
-            stream.getSampleRate, "text", "input_small")
-        </li>
-        <li>
-            <div class="input_item_wrapper">
-                <label for="channels">Channels</label>
-                <div>
-                    <select id="channels" name="channels" class="input_small">
+            <div class="form-group form-group-float">
+                <div class="input_small">
+                    <label for="channels">Channels</label>
+                    <select id="channels" name="channels" class="form-control">
                         <option selected>@stream.getChannels</option>
                         <option>1</option>
                         <option>2</option>
@@ -47,6 +45,27 @@
                         <option>7</option>
                         <option>8</option>
                     </select>
+                </div>
+            </div>
+        </li>
+        <li>
+        @forms.config.config_input_item("Bit rate (bit/s):", "bit_rate",
+            stream.getBitRate, "text", "input_small")
+        </li>
+        <li>
+        @forms.config.config_input_item("Sampling Rate:", "sample_rate",
+            stream.getSampleRate, "text", "input_small")
+        </li>
+        <li>
+        @forms.config.config_input_item("Volume:", "volume",
+            "", "text", "input_small")
+        </li>
+        <li>
+            <div class="form-group form-group-float">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="disabled"> Disable stream
+                    </label>
                 </div>
             </div>
         </li>
