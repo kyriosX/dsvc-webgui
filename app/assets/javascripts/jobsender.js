@@ -4,12 +4,21 @@ function manageSocket(socket) {
         if (m.downloadURL != undefined) {
             window.location.href = m.downloadURL;
         }
+        if (m.exceptions != undefined) {
+            $("<ul>").appendTo("#exceptions");
+            $.each(m.exceptions, function (i,e) {
+                $("<li>" + e.reason + "</li>").appendTo("#exceptions");
+            });
+            $("</ul>").appendTo("#exceptions");
+            $("#exceptions").show();
+        }
     }
 }
 
 function sendJob(socket, vpath) {
     var dataObject = serializeConfigs();
     dataObject.vpath = vpath;
+    $("#exceptions").empty().hide();
     socket.send(JSON.stringify(dataObject));
 }
 
@@ -25,7 +34,7 @@ function serializeConfigs() {
                 function (i, config) {
                     if (config.value === "on") {
                         stream[config.name] = "true";
-                    } else if (config.value === "off"){
+                    } else if (config.value === "off") {
                         stream[config.name] = "false";
                     } else {
                         stream[config.name] = config.value;
@@ -42,7 +51,7 @@ function serializeConfigs() {
                 function (i, config) {
                     if (config.value === "on") {
                         v_config[config.name] = "true";
-                    } else if (config.value === "off"){
+                    } else if (config.value === "off") {
                         v_config[config.name] = "false";
                     } else {
                         v_config[config.name] = config.value;
@@ -52,4 +61,3 @@ function serializeConfigs() {
     );
     return v_config;
 }
-

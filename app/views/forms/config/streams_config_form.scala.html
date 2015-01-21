@@ -2,6 +2,8 @@
 
 <form id="video_conf" class="video_conf">
 
+    <div id="exceptions" class="alert alert-danger" hidden></div>
+
     @*Generate form*@
     @for(stream <- videoInfo.getStreams) {
         @stream.getCodecType match {

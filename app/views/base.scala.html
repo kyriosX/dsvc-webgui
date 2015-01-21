@@ -19,6 +19,9 @@
     <!-- Custom CSS -->
     <link href="@routes.Assets.at("stylesheets/style.css")" rel="stylesheet">
 
+    <!-- Upload button CSS -->
+    <link href="@routes.Assets.at("stylesheets/upload.css")" rel="stylesheet">
+
     <!-- Custom Fonts -->
     <link href="@routes.Assets.at("font-awesome/css/font-awesome.min.css")" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
@@ -29,14 +32,14 @@
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-custom navbar-fixed-top top-nav-collapse" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">
-                    <i class="fa fa-play-circle"></i>  <span class="light">Welcome to</span> DSVC
+                <a class="navbar-brand page-scroll" href="@routes.Application.index()">
+                    <i class="fa fa-play-circle"></i>  <span class="light">Distributed Video Encoding System</span>
                 </a>
             </div>
 
@@ -92,6 +95,5 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="@routes.Assets.at("javascripts/grayscale.js")"></script>
-</body>
 
 </html>

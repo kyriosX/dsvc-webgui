@@ -22,14 +22,15 @@ import java.io.IOException;
 
 public class Application extends Controller {
 
-    private static final String PROBE_LOCATION = "/home/wizzard/diploma_work/dsvc/ffmpeg/ffprobe";
+    public static final String PROBE_LOCATION = "ffprobe";
+    public static final String FFMPEG_LOCATION = "ffmpeg";
 
     private static ActorRef client;
 
     public static Result index() {
         if (client == null) {
             client = ClientMain.startClient("0", new FFMPEGService(
-                    "/home/wizzard/diploma_work/dsvc/ffmpeg/ffmpeg",
+                    FFMPEG_LOCATION,
                     30,
                     System.getProperty("java.io.tmpdir")));
         }

@@ -410,6 +410,9 @@ a.arrow_button:active{
 .video_conf {
     width: 100%;
     margin-top: 5%;
+    background-color: rgba(171, 202, 146, 0.5);
+    padding-left: 2%;
+    padding-bottom: 2%;
 }
 
 li {
@@ -462,7 +465,8 @@ li {
 
 .platform {
     background: #5b8033;
-    width: 650px;
+    width: 100%;
+    position: relative;
 }
 
 .node_container {
@@ -477,6 +481,7 @@ li {
     -moz-box-shadow:    0px 4px 21px 0px rgba(27, 28, 39, 0.61);
     box-shadow:         0px 4px 21px 0px rgba(27, 28, 39, 0.61);
     margin-left: 10px;
+    margin-top: 10px;
 }
 
 .unreachable {
@@ -495,4 +500,10 @@ li {
 
 legend {
     color: #ffffff;
+}
+
+.layer {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-bottom: 1%;
+    padding-right: 2.5%;
 }
