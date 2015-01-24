@@ -8,6 +8,7 @@ import com.kyrioslab.jffmpegw.attributes.parser.InfoParser;
 import com.kyrioslab.jffmpegw.attributes.parser.MultimediaInfo;
 import controllers.actor.EncodeProcessSocket;
 import controllers.actor.EncoderManagementSocket;
+import play.Logger;
 import play.Play;
 import play.libs.F;
 import play.mvc.Controller;
@@ -50,7 +51,9 @@ public class Application extends Controller {
         Http.MultipartFormData.FilePart part =
                 request().body().asMultipartFormData().getFile("video");
         File video = part.getFile();
+
         if (video != null) {
+            Logger.info("Uploaded video {}", video.getAbsoluteFile());
 
             //get video info
             try {
@@ -59,7 +62,7 @@ public class Application extends Controller {
                 //redirect to job tracker
                 return ok(track.render(part.getFilename(), video.getAbsolutePath(), videoInfo));
             } catch (Exception e) {
-                flash("error", "Exception while parsing video info.");
+                Logger.error("Exception while parsing video info: {}", e);
                 return redirect(routes.Application.index());
             }
         } else {
