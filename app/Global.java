@@ -1,7 +1,6 @@
 import org.apache.commons.io.IOUtils;
 import play.GlobalSettings;
 import play.Logger;
-import play.Play;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,7 +13,7 @@ import java.nio.file.Paths;
  */
 public class Global extends GlobalSettings {
 
-    public static final String FFMPEG_TOOLS_ROOT_DIR = "ffmpeg";
+    public static final String FFMPEG_TOOLS_ROOT_DIR = "tools";
 
     @Override
     public void beforeStart(play.Application application) {

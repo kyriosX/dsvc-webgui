@@ -20,13 +20,12 @@ import views.html.manage;
 import views.html.track;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Paths;
 
 public class Application extends Controller {
 
-    public static final String PROBE_LOCATION = Paths.get(Play.application().path().getAbsolutePath(), "ffmpeg","ffprobe").toString();
-    public static final String FFMPEG_LOCATION = Paths.get(Play.application().path().getAbsolutePath(),"ffmpeg","ffmpeg").toString();
+    public static final String PROBE_LOCATION = Paths.get(Play.application().path().getAbsolutePath(), "conf", "ffprobe").toString();
+    public static final String FFMPEG_LOCATION = Paths.get(Play.application().path().getAbsolutePath(),"conf","ffmpeg").toString();
 
     private static ActorRef client;
 
