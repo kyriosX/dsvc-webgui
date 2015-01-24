@@ -22,8 +22,8 @@ import java.io.IOException;
 
 public class Application extends Controller {
 
-    public static final String PROBE_LOCATION = "ffprobe";
-    public static final String FFMPEG_LOCATION = "ffmpeg";
+    public static final String PROBE_LOCATION = Application.class.getResource("ffprobe").getPath();
+    public static final String FFMPEG_LOCATION = Application.class.getResource("ffmpeg").getPath();
 
     private static ActorRef client;
 
