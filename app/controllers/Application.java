@@ -8,6 +8,7 @@ import com.kyrioslab.jffmpegw.attributes.parser.InfoParser;
 import com.kyrioslab.jffmpegw.attributes.parser.MultimediaInfo;
 import controllers.actor.EncodeProcessSocket;
 import controllers.actor.EncoderManagementSocket;
+import play.Play;
 import play.libs.F;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -19,11 +20,12 @@ import views.html.track;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 public class Application extends Controller {
 
-    public static final String PROBE_LOCATION = Application.class.getResource("ffprobe").getPath();
-    public static final String FFMPEG_LOCATION = Application.class.getResource("ffmpeg").getPath();
+    public static final String PROBE_LOCATION = Paths.get(Play.application().path().getAbsolutePath(), "ffmpeg","ffprobe").toString();
+    public static final String FFMPEG_LOCATION = Paths.get(Play.application().path().getAbsolutePath(),"ffmpeg","ffmpeg").toString();
 
     private static ActorRef client;
 
