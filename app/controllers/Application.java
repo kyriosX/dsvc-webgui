@@ -29,7 +29,7 @@ public class Application extends Controller {
 
     public static Result index() {
         if (client == null) {
-            client = ClientMain.startClient("0", new FFMPEGService(
+            client = ClientMain.startClient(new FFMPEGService(
                     FFMPEG_LOCATION,
                     30,
                     System.getProperty("java.io.tmpdir")));
