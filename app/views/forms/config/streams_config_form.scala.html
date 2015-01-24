@@ -27,7 +27,7 @@
 <script src="@routes.Assets.at("javascripts/jobsender.js")" type="application/javascript"></script>
 
 <script type="application/javascript">
-    var socket = new WebSocket("@routes.Application.encodeProcessSocket().webSocketURL(false)");
+    var socket = new WebSocket("@routes.Application.encodeProcessSocket().webSocketURL(true)");
     manageSocket (socket) ;
     function sendJobW ( ) {
         sendJob (socket,"@vPath");

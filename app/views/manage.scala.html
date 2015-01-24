@@ -22,7 +22,7 @@
     <div id="members" class="platform"></div>
 
     <script type="application/javascript">
-        var socket = new WebSocket ("@routes.Application.encoderManagementSocket().webSocketURL(false)");
+        var socket = new WebSocket ("@routes.Application.encoderManagementSocket().webSocketURL(true)");
         socket.onmessage = function ( msg ) {
             var clusterState = JSON.parse(msg.data);
             if ( clusterState.members != undefined) {
