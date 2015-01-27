@@ -18,14 +18,15 @@ import play.libs.Json;
 import validator.GUIException;
 import validator.ValidationException;
 import validator.Validator;
+import views.formdata.EncodeFailed;
 import views.formdata.EncodeResult;
+import views.formdata.ProgressEvent;
 import views.formdata.VideoConfig;
 
 import java.util.List;
 
 /**
  * Created by Ivan Kirilyuk on 04.01.15.
- *
  */
 public class EncodeProcessSocket extends UntypedActor {
 
@@ -37,6 +38,7 @@ public class EncodeProcessSocket extends UntypedActor {
 
     private final ActorRef client;
 
+    private double progressIncrement = 0;
 
     public EncodeProcessSocket(ActorRef out, ActorRef client) {
         this.out = out;
@@ -73,6 +75,12 @@ public class EncodeProcessSocket extends UntypedActor {
                         config.getDuration()
                 );
                 client.tell(encodeJob, getSelf());
+
+                //initialize progress bar
+                int duration = Integer.parseInt(config.getDuration());
+                int segmentCount = duration / Application.SEGMENT_TIME;
+                progressIncrement = 100 / segmentCount;
+                sendProgress();
             } catch (BuilderException e) {
                 Logger.error("Build Exception: {}", e);
             }
@@ -84,7 +92,21 @@ public class EncodeProcessSocket extends UntypedActor {
             EncodeResult encodeResult = new EncodeResult();
             encodeResult.setDownloadURL(url);
             out.tell(Json.toJson(encodeResult).toString(), getSelf());
+        } else if (message instanceof LocalMessage.EncodeJobFailedMessage) {
+            LocalMessage.EncodeJobFailedMessage failedMessage = (LocalMessage.EncodeJobFailedMessage) message;
+            out.tell(Json.toJson(new EncodeFailed(failedMessage.getReason(),
+                    failedMessage.getCommand().getCommand().toString())).toString(), getSelf());
+        } else if (message instanceof LocalMessage.ProgressMessage) {
+            sendProgress();
+        } else {
+            unhandled(message);
         }
+    }
+
+    private void sendProgress() {
+        out.tell(Json.toJson(
+                new ProgressEvent(progressIncrement)
+        ).toString(), getSelf());
     }
 
     private String extractFormat(String vname) {

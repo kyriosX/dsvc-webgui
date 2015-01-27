@@ -26,6 +26,7 @@ public class Application extends Controller {
 
     public static final String PROBE_LOCATION = Paths.get(Play.application().path().getAbsolutePath(), "conf", "ffprobe").toString();
     public static final String FFMPEG_LOCATION = Paths.get(Play.application().path().getAbsolutePath(),"conf","ffmpeg").toString();
+    public static int  SEGMENT_TIME = 30; //30s
 
     private static ActorRef client;
 
@@ -33,7 +34,7 @@ public class Application extends Controller {
         if (client == null) {
             client = ClientMain.startClient(new FFMPEGService(
                     FFMPEG_LOCATION,
-                    30,
+                    SEGMENT_TIME,
                     System.getProperty("java.io.tmpdir")));
         }
         return ok(index.render());

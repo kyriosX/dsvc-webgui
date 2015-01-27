@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 
 /**
  * Created by Ivan Kirilyuk on 24.01.15.
+ *
  */
 public class Global extends GlobalSettings {
 
@@ -22,6 +23,12 @@ public class Global extends GlobalSettings {
         InputStream ffmpeg = this.getClass().getResourceAsStream("ffmpeg");
 
         File root = Paths.get(APP_ROOT_DIR, FFMPEG_TOOLS_ROOT_DIR).toFile();
+
+        if (root.exists()) {
+            Logger.info("{} directory already exists, expect ffmpeg tools unpacked", root.getAbsolutePath());
+            return;
+        }
+
         if (root.mkdir()) {
 
             //unpack ffprobe

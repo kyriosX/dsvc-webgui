@@ -3,14 +3,25 @@ function manageSocket(socket) {
         var m = JSON.parse(msg.data);
         if (m.downloadURL != undefined) {
             window.location.href = m.downloadURL;
-        }
-        if (m.exceptions != undefined) {
+        } else if (m.exceptions != undefined) {
             $("<ul>").appendTo("#exceptions");
             $.each(m.exceptions, function (i,e) {
                 $("<li>" + e.reason + "</li>").appendTo("#exceptions");
             });
             $("</ul>").appendTo("#exceptions");
             $("#exceptions").show();
+        } else if (m.failed != undefined) {
+            $("<p>" + "Encode failed. Reason: " + m.failed + " Command: " +
+                m.command +"</p>").appendTo("#exceptions");
+            $("#exceptions").show();
+        } else if (m.progress != undefined) {
+            var progressbar = $("#progressBar");
+            if (progressbar.is(":hidden")) {
+                progressbar.show();
+            } else {
+                var curr = progressbar.val();
+                progressbar.val(curr + m.progress);
+            }
         }
     }
 }
