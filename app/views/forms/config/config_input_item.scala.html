@@ -1,7 +1,7 @@
-@(label:String, name_id:String, value : String, input_type : String,input_class : String)
+@(label:String, name_id:String, value : String, input_type : String,input_class : String, t : String)
 
 <div class="form-group form-group-float">
-    <div class="@input_class">
+    <div class="@input_class" id="@t">
         <label for="@name_id">@label</label>
         <input name="@name_id" id="@name_id" value="@value" type="@input_type" class="form-control"/>
     </div>

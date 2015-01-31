@@ -9,6 +9,8 @@ GET         /                     controllers.Application.index()
 
 POST        /encode               controllers.Application.uploadVideo()
 
+GET         /encode/template      controllers.Application.getTemplate(name)
+
 GET         /encode/listen        controllers.Application.encodeProcessSocket()
 
 GET         /manage               controllers.Application.manage()

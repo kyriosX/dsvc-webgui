@@ -17,7 +17,9 @@ function manageSocket(socket) {
         } else if (m.progress != undefined) {
             var progressbar = $("#progressBar");
             if (progressbar.is(":hidden")) {
+                progressbar.attr("max", m.progress);
                 progressbar.show();
+                $("#encodeButton").hide();
             } else {
                 var curr = progressbar.val();
                 progressbar.val(curr + m.progress);
@@ -71,4 +73,25 @@ function serializeConfigs() {
         }
     );
     return v_config;
+}
+
+function loadTemplate(path) {
+    var tmplName = $("#config_template").val();
+    $.get(path + tmplName, function (tmpl) {
+        var t = JSON.parse(tmpl);
+        if (t.name != undefined) {
+            $("#vcodec" ).val( t.video.codec_name);
+            $("#width" ).val( t.video.width);
+            $("#height" ).val( t.video.height);
+            $("#video > #bit_rate" ).val( t.video.bit_rate);
+            $("#avg_frame_rate" ).val( t.video.avg_frame_rate);
+
+            $("#acodec" ).val( t.audio.codec_name);
+            $("#audio > #bit_rate" ).val( t.audio.bit_rate);
+            $("#sample_rate" ).val( t.audio.sample_rate);
+            $("#channels" ).val( t.audio.channels);
+
+            $("#oformat").val(t.format);
+        }
+    });
 }

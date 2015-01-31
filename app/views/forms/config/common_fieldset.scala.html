@@ -1,4 +1,4 @@
-@(videoInfo: com.kyrioslab.jffmpegw.attributes.parser.MultimediaInfo, vName : String)
+@(videoInfo: com.kyrioslab.jffmpegw.attributes.parser.MultimediaInfo, vName : String, templates : List[views.formdata.ConfigTemplate])
 
 <fieldset name="common" class="config_block">
     <legend>Common</legend>
@@ -19,15 +19,35 @@
         </li>
         <li>
         @forms.config.config_input_item("Duration:", "duration",
-            videoInfo.getFormat.getDuration, "text", "input_large")
+            videoInfo.getFormat.getDuration, "text", "input_large", "common")
         </li>
         <li>
         @forms.config.config_input_item("Name:", "vname",
-            vName, "text", "input_large")
+            vName, "text", "input_large", "common")
         </li>
         <li>
         @forms.config.config_input_item("Format:", "input_format",
-            videoInfo.getFormat.getFormatName, "text", "input_large")
+            videoInfo.getFormat.getFormatName, "text", "input_large", "common")
+        </li>
+        <li>
+            <div class="form-group form-group-float">
+                <div class="input_large">
+                    <label for="config_template">Template:</label>
+                    <select id="config_template" name="config_template" class="form-control">
+                    @for(t <- templates) {
+                        <option>
+                            @t.getName
+                        </option>
+                    }
+                    </select>
+                </div>
+            </div>
         </li>
     </ul>
 </fieldset>
+
+<script>
+    $("#config_template").change(function () {
+          loadTemplate("@routes.Application.getTemplate("").toString()");
+    });
+</script>

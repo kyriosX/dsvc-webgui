@@ -26,7 +26,7 @@
         </li>
         <li>
         @forms.config.config_input_item("Bit rate (bit/s)", "bit_rate",
-            stream.getBitRate, "text", "input_medium")
+            stream.getBitRate, "text", "input_medium", "video")
         </li>
         <li>
             <div class="form-group form-group-float">
@@ -48,18 +48,18 @@
         <li>
             <div style="clear: left">
                 @forms.config.config_input_item("Width:", "width",
-                    stream.getWidth, "text", "input_small")
+                    stream.getWidth, "text", "input_small", "video")
                 @forms.config.config_input_item("Height:", "height",
-                    stream.getHeight, "text", "input_small")
+                    stream.getHeight, "text", "input_small", "video")
             </div>
         </li>
         <li>
         @forms.config.config_input_item("Aspect:", "display_aspect_ratio",
-            stream.getDisplayAspectRatio, "text", "input_small")
+            stream.getDisplayAspectRatio, "text", "input_small", "video")
         </li>
         <li>
         @forms.config.config_input_item("Frame rt:", "avg_frame_rate",
-            stream.getAvgFrameRate, "text", "input_small")
+            stream.getAvgFrameRate, "text", "input_small", "video")
         </li>
         <li>
             <div class="form-group form-group-float">

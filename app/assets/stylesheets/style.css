@@ -509,6 +509,7 @@ legend {
 }
 
 #progressBar {
-    width: 40%;
-    margin-top: 10px;
+    width: 70%;
+    margin-top: 25px;
+    height: 10px;
 }

@@ -1,7 +1,8 @@
-@(vName: String)(vPath:String)(videoInfo : com.kyrioslab.jffmpegw.attributes.parser.MultimediaInfo)
+@(vName: String)(vPath:String)(videoInfo : com.kyrioslab.jffmpegw.attributes.parser.MultimediaInfo,
+        templates : List[views.formdata.ConfigTemplate])
 @import helper._
 
 @base("Configuration") {
     <div class="layer"></div>
-    @forms.config.streams_config_form(vPath, videoInfo, vName)
+    @forms.config.streams_config_form(vPath, videoInfo, vName, templates)
 }

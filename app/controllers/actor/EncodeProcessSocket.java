@@ -27,6 +27,7 @@ import java.util.List;
 
 /**
  * Created by Ivan Kirilyuk on 04.01.15.
+ *
  */
 public class EncodeProcessSocket extends UntypedActor {
 
@@ -72,17 +73,19 @@ public class EncodeProcessSocket extends UntypedActor {
                 LocalMessage.EncodeVideoMessage encodeJob = new LocalMessage.EncodeVideoMessage(
                         config.getVpath(),
                         command,
-                        config.getDuration()
-                );
-                client.tell(encodeJob, getSelf());
+                        config.getDuration());
 
                 //initialize progress bar
-                int duration = Integer.parseInt(config.getDuration());
-                int segmentCount = duration / Application.SEGMENT_TIME;
-                progressIncrement = 100 / segmentCount;
-                sendProgress();
+                double duration = Double.parseDouble(config.getDuration());
+                int segmentCount = (int)duration / Application.SEGMENT_TIME;
+                sendProgress(segmentCount);
+
+                //send job
+                client.tell(encodeJob, getSelf());
             } catch (BuilderException e) {
                 Logger.error("Build Exception: {}", e);
+                out.tell(Json.toJson(new EncodeFailed("Failed to create encode command",
+                        "")).toString(), getSelf());
             }
         } else if (message instanceof LocalMessage.EncodeResult) {
             String result = ((LocalMessage.EncodeResult) message).getResultPath();
@@ -97,15 +100,15 @@ public class EncodeProcessSocket extends UntypedActor {
             out.tell(Json.toJson(new EncodeFailed(failedMessage.getReason(),
                     failedMessage.getCommand().getCommand().toString())).toString(), getSelf());
         } else if (message instanceof LocalMessage.ProgressMessage) {
-            sendProgress();
+            sendProgress(1);
         } else {
             unhandled(message);
         }
     }
 
-    private void sendProgress() {
+    private void sendProgress(int count) {
         out.tell(Json.toJson(
-                new ProgressEvent(progressIncrement)
+                new ProgressEvent(count)
         ).toString(), getSelf());
     }
 
