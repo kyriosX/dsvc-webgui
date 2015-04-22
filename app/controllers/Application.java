@@ -26,28 +26,34 @@ import views.html.manage;
 import views.html.track;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class Application extends Controller {
 
     private static final String TEMPLATES_FILE_NAME = "templates.json";
-    public static final String PROBE_LOCATION = Paths.get(Play.application().path().getAbsolutePath(), "conf", "ffprobe").toString();
-    public static final String FFMPEG_LOCATION = Paths.get(Play.application().path().getAbsolutePath(), "conf", "ffmpeg").toString();
-    public static int SEGMENT_TIME = 30; //30s
+    private static final String CLIENT_PROPERTIES = "dsvc_client.properties";
+
+    public static final String FFPROBE_LOCATION = "ffprobe_location";
+    public static final String FFMPEG_LOCATION = "ffmpeg_location";
+    public static final String SEGMENT_LENGTH = "segment_length";
+    public static final String TMP_DIR = "tmp_dir";
+
     private static Gson gson = new GsonBuilder().setFieldNamingStrategy(
             FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
+    private static Properties clientProps = new Properties();
     private static ActorRef client;
 
-    public static Result index() {
+    public static Result index() throws IOException {
+
+        //load dsvc-client
         if (client == null) {
-            client = ClientMain.startClient(new FFMPEGService(
-                    FFMPEG_LOCATION,
-                    SEGMENT_TIME,
-                    System.getProperty("java.io.tmpdir")));
+            clientProps.load(Play.application().resourceAsStream(CLIENT_PROPERTIES));
+            client = startClient();
         }
         return ok(index.render());
     }
@@ -69,7 +75,7 @@ public class Application extends Controller {
 
             //get video info
             try {
-                MultimediaInfo videoInfo = InfoParser.getInfo(PROBE_LOCATION, video.getAbsolutePath());
+                MultimediaInfo videoInfo = InfoParser.getInfo(clientProps.getProperty(FFPROBE_LOCATION), video.getAbsolutePath());
 
                 List<ConfigTemplate> configTemplateList = loadTemplates();
                 //redirect to job tracker
@@ -124,7 +130,7 @@ public class Application extends Controller {
     public static WebSocket<String> encodeProcessSocket() {
         return WebSocket.withActor(new F.Function<ActorRef, Props>() {
             public Props apply(ActorRef out) throws Throwable {
-                return EncodeProcessSocket.props(out, client);
+                return EncodeProcessSocket.props(out, client, clientProps);
             }
         });
     }
@@ -137,4 +143,18 @@ public class Application extends Controller {
         });
     }
 
+    private static ActorRef startClient() {
+        final String clientAdress = clientProps.getProperty("dsvc_client_address");
+        final String clientPort = clientProps.getProperty("dsvc_client_port");
+        final String seedNodes = clientProps.getProperty("seed_nodes");
+
+        return ClientMain.startClient(new FFMPEGService(
+                        clientProps.getProperty(FFMPEG_LOCATION),
+                        Integer.parseInt(clientProps.getProperty(SEGMENT_LENGTH)),
+                        clientProps.getProperty(TMP_DIR)
+                ),
+                clientAdress,
+                clientPort,
+                seedNodes);
+    }
 }

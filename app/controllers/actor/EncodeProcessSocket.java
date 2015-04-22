@@ -24,6 +24,7 @@ import views.formdata.ProgressEvent;
 import views.formdata.VideoConfig;
 
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by Ivan Kirilyuk on 04.01.15.
@@ -31,19 +32,20 @@ import java.util.List;
  */
 public class EncodeProcessSocket extends UntypedActor {
 
-    public static Props props(ActorRef out, ActorRef client) {
-        return Props.create(EncodeProcessSocket.class, out, client);
+    public static Props props(ActorRef out, ActorRef client, Properties clientProps) {
+        return Props.create(EncodeProcessSocket.class, out, client, clientProps);
     }
 
     private final ActorRef out;
 
     private final ActorRef client;
 
-    private double progressIncrement = 0;
+    private final Properties clientProps;
 
-    public EncodeProcessSocket(ActorRef out, ActorRef client) {
+    public EncodeProcessSocket(ActorRef out, ActorRef client, Properties props) {
         this.out = out;
         this.client = client;
+        this.clientProps = props;
     }
 
     public void onReceive(Object message) throws Exception {
@@ -53,7 +55,8 @@ public class EncodeProcessSocket extends UntypedActor {
                     FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()
                     .fromJson(message.toString(), VideoConfig.class);
 
-            MultimediaInfo videoInfo = InfoParser.getInfo(Application.PROBE_LOCATION,
+            MultimediaInfo videoInfo = InfoParser.getInfo(
+                    clientProps.getProperty(Application.FFPROBE_LOCATION),
                     config.getVpath());
 
             //tell exceptions to browser and return
@@ -77,7 +80,8 @@ public class EncodeProcessSocket extends UntypedActor {
 
                 //initialize progress bar
                 double duration = Double.parseDouble(config.getDuration());
-                int segmentCount = (int)duration / Application.SEGMENT_TIME;
+                int segment_len = Integer.parseInt(clientProps.getProperty(Application.SEGMENT_LENGTH));
+                int segmentCount = (int)duration / segment_len;
                 sendProgress(segmentCount);
 
                 //send job

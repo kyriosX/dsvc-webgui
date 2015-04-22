@@ -49,6 +49,23 @@
             "sample_rate": "48000",
             "channels": "2"
         }
+    },
+    {
+        "name": "TEST",
+        "format": "avi",
+        "video": {
+            "codec_name": "h264",
+            "width": "240",
+            "height": "120",
+            "bit_rate": "2000000",
+            "avg_frame_rate": "15"
+        },
+        "audio": {
+            "codec_name": "ac3",
+            "bit_rate": "128000",
+            "sample_rate": "48000",
+            "channels": "2"
+        }
     }
 ]
 

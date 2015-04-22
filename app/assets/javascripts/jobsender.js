@@ -1,3 +1,6 @@
+var tstart;
+var tend;
+
 function manageSocket(socket) {
     socket.onmessage = function (msg) {
         var m = JSON.parse(msg.data);
@@ -20,9 +23,14 @@ function manageSocket(socket) {
                 progressbar.attr("max", m.progress);
                 progressbar.show();
                 $("#encodeButton").hide();
+                tstart = new Date().getTime();
             } else {
                 var curr = progressbar.val();
                 progressbar.val(curr + m.progress);
+                if (curr == progressbar.attr("max")) {
+                    tend = new Date().getTime();
+                    alert("Time: " + (tend - tstart));
+                }
             }
         }
     }
